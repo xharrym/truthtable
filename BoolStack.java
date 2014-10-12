@@ -1,47 +1,59 @@
-/*
- * xharrym
- * 2014
- *
- * Manage the stack to evaluate the function
- *
- */
+import java.util.Stack;
+
+/**
+*	Manage the stack to evaluate the function.
+*
+*	@author xharrym 2014
+*	@author Michael Mckee October 2014
+*/
+
 public class BoolStack {
-	public boolean[] stack;
-	public int pointer;
+	private Stack<Boolean> stack;
 
 	public BoolStack(){
-		stack = new boolean[100];
-		pointer = 0;
+		this.stack = new Stack<Boolean>();
 	}
 
+  /**
+   * Empties the stack.
+   */
 	public void reset(){
-		pointer = 0;
+		while(!stack.empty()){
+			stack.pop();
+		}
 	}
 
-	public void push(boolean x){
-		stack[pointer] = x;
-		pointer++;
+  /**
+   * Push a boolean onto the stack.
+   *
+   * @param x The boolean to be pushed.
+   */
+  public void push(boolean x){
+    stack.push(x);
+  }
 
-		if(pointer == 100)
-			System.out.println("Stack is full!");
-	}
+  /**
+   * Push the result of AND for the top two elements of the stack.
+   */
+  public void and(){
+    stack.push(stack.pop() & stack.pop());
+  }
 
-	public void and(){
-		pointer = pointer-1;
-		stack[pointer-1] = stack[pointer] & stack[pointer-1];
-	}
+  /**
+   * Push the result of OR for the top two elements of the stack.
+   */
+  public void or(){
+    stack.push(stack.pop() | stack.pop());
+  }
 
-	public void or(){
-		pointer = pointer-1;
-		stack[pointer-1] = stack[pointer] | stack[pointer-1];
-	}
+  /**
+   * Push the NOT of the top element of the stack.
+   */
+  public void not(){
+    stack.push(!stack.pop());
+  }
 
-	public void not(){
-		stack[pointer-1] = !stack[pointer-1];
-	}
-
-	public boolean returnResult(){
-		return stack[0];
-	}
-
+  public boolean returnResult(){
+    return stack.pop();
+  }
 }
